@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BeerWholesaleManagementSystem.Core.Models;
 
-public class CommandRequest
-{
-    public class CommandeRequest
+
+    public class CommandRequest
     {
         public int CommandRequestId { get; set; }
-        public int GrossisteId { get; set; }
+        public int WholesalerId { get; set; }
         public DateTime DateCommande { get; set; }
         public required string Statuts { get; set; }
 
@@ -22,4 +15,4 @@ public class CommandRequest
         public virtual required Wholesaler Wholesaler { get; set; }
         public virtual required List<Beer> BeerCommandees { get; set; }
     }
-}
+

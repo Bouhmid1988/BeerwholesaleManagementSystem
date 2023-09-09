@@ -7,5 +7,5 @@ public class Wholesaler
     public int WholesalerId { get; set; }
     public required string Name { get; set; }
     public virtual List<Stock>? Stocks { get; set; }
-    public virtual List<CommandeRequest>? CommandRequest { get; set; }
+    public virtual List<CommandRequest>? CommandRequest { get; set; }
 }

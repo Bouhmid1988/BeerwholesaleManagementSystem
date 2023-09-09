@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerWholesaleManagementSystem.API", "BeerwholesaleManagementSystem.API\BeerWholesaleManagementSystem.API.csproj", "{4AA4D199-A777-46A7-B662-0F5025842B88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeerWholesaleManagementSystem.API", "BeerwholesaleManagementSystem.API\BeerWholesaleManagementSystem.API.csproj", "{4AA4D199-A777-46A7-B662-0F5025842B88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerWholesaleManagementSystem.Core", "BeerWholesaleManagementSystem.Core\BeerWholesaleManagementSystem.Core.csproj", "{F0A1D37C-8C4A-4EBC-9AB2-A6317E1DAFA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeerWholesaleManagementSystem.Core", "BeerWholesaleManagementSystem.Core\BeerWholesaleManagementSystem.Core.csproj", "{F0A1D37C-8C4A-4EBC-9AB2-A6317E1DAFA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerWholesaleManagementSystem.Data", "BeerWholesaleManagementSystem.Data\BeerWholesaleManagementSystem.Data.csproj", "{B2C747E0-7E1C-4E07-B5A9-73A1350DDC1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeerWholesaleManagementSystem.Data", "BeerWholesaleManagementSystem.Data\BeerWholesaleManagementSystem.Data.csproj", "{B2C747E0-7E1C-4E07-B5A9-73A1350DDC1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerWholesaleManagementSystem.Services", "BeerWholesaleManagementSystem.Services\BeerWholesaleManagementSystem.Services.csproj", "{52C7CFF7-EB46-4AA4-B892-33441F1EA472}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeerWholesaleManagementSystem.Services", "BeerWholesaleManagementSystem.Services\BeerWholesaleManagementSystem.Services.csproj", "{52C7CFF7-EB46-4AA4-B892-33441F1EA472}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerWholesaleManagementSystem.Test", "BeerWholesaleManagementSystem.Test\BeerWholesaleManagementSystem.Test.csproj", "{9FAEBFFD-DD00-47F9-AC09-81123A1EC29F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F414F0EA-5A63-43FD-8B77-0F3F99AECE14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{81ADC5A6-E93F-4E59-B9F8-122D112D592C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeerWholesaleManagementSystem.Tests", "BeerWholesaleManagementSystem.Tests\BeerWholesaleManagementSystem.Tests.csproj", "{D4E15868-A7F2-4CA4-BD6B-891396D08B4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,13 +39,20 @@ Global
 		{52C7CFF7-EB46-4AA4-B892-33441F1EA472}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52C7CFF7-EB46-4AA4-B892-33441F1EA472}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52C7CFF7-EB46-4AA4-B892-33441F1EA472}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9FAEBFFD-DD00-47F9-AC09-81123A1EC29F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9FAEBFFD-DD00-47F9-AC09-81123A1EC29F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9FAEBFFD-DD00-47F9-AC09-81123A1EC29F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9FAEBFFD-DD00-47F9-AC09-81123A1EC29F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4E15868-A7F2-4CA4-BD6B-891396D08B4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4E15868-A7F2-4CA4-BD6B-891396D08B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4E15868-A7F2-4CA4-BD6B-891396D08B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E15868-A7F2-4CA4-BD6B-891396D08B4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4AA4D199-A777-46A7-B662-0F5025842B88} = {81ADC5A6-E93F-4E59-B9F8-122D112D592C}
+		{F0A1D37C-8C4A-4EBC-9AB2-A6317E1DAFA1} = {81ADC5A6-E93F-4E59-B9F8-122D112D592C}
+		{B2C747E0-7E1C-4E07-B5A9-73A1350DDC1A} = {81ADC5A6-E93F-4E59-B9F8-122D112D592C}
+		{52C7CFF7-EB46-4AA4-B892-33441F1EA472} = {81ADC5A6-E93F-4E59-B9F8-122D112D592C}
+		{D4E15868-A7F2-4CA4-BD6B-891396D08B4E} = {F414F0EA-5A63-43FD-8B77-0F3F99AECE14}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5758D98A-E207-4C98-9FFF-90023AA23D36}

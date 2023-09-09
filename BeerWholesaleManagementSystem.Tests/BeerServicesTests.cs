@@ -1,8 +1,6 @@
-﻿using BeerWholesaleManagementSystem.Core.DTO;
-using BeerWholesaleManagementSystem.Core.Models;
+﻿using BeerWholesaleManagementSystem.Core.Models;
 using BeerWholesaleManagementSystem.Core.Repositories;
 using BeerWholesaleManagementSystem.Services.Services;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
@@ -12,7 +10,6 @@ public class BeerServicesTests
 {
     [Fact]
     [Trait("categories", "New beer")]
-
     public async Task Should_CreateBeer_WhenBeerDoesNotExist_ReturnsNewBeer()
     {
         // Arrange
@@ -26,7 +23,7 @@ public class BeerServicesTests
         beerRepositoryMock.Setup(repo => repo.AddAsync(newBeer, cancellationToken))
                          .ReturnsAsync(newBeer);
 
-        var beerService = new BeerServices(beerRepositoryMock.Object);
+        var beerService = new BeerService(beerRepositoryMock.Object);
 
         // Act
         var result = await beerService.CreateBeer(newBeer, cancellationToken);
@@ -39,7 +36,6 @@ public class BeerServicesTests
 
     [Fact]
     [Trait("categories", "New beer")]
-
     public async Task Should_CreateBeer_WhenBeerExists_ThrowsInvalidOperationException()
     {
         // Arrange
@@ -54,21 +50,20 @@ public class BeerServicesTests
                 Price = newBeer.Price,
                 BreweryId = newBeer.BreweryId
             };
-        var beerRepositoryMock = new Mock<IBeerRepositories>();
-        beerRepositoryMock.Setup(repo => repo.GetByIdAsync(newBeer.BeerId, cancellationToken))
+        var beerRepositoriesMock = new Mock<IBeerRepositories>();
+        beerRepositoriesMock.Setup(repo => repo.GetByIdAsync(newBeer.BeerId, cancellationToken))
                          .ReturnsAsync(existingBeer);
 
-        var beerService = new BeerServices(beerRepositoryMock.Object);
+        var beerService = new BeerService(beerRepositoriesMock.Object);
 
         // Act & Assert
         await Assert.ThrowsAsync<InvalidOperationException>(() => beerService.CreateBeer(newBeer, cancellationToken));
-        beerRepositoryMock.Verify(repo => repo.GetByIdAsync(newBeer.BeerId, cancellationToken), Times.Once);
+        beerRepositoriesMock.Verify(repo => repo.GetByIdAsync(newBeer.BeerId, cancellationToken), Times.Once);
 
     }
 
     [Fact]
     [Trait("categories", "Delete beer")]
-
     public async Task Should_DeleteBeer_WhenBeerExists_RemovesBeer()
     {
         // Arrange
@@ -80,7 +75,7 @@ public class BeerServicesTests
         beerRepositoryMock.Setup(repo => repo.GetByIdAsync(beerIdToDelete, cancellationToken))
                          .ReturnsAsync(existingBeer);
 
-        var beerService = new BeerServices(beerRepositoryMock.Object);
+        var beerService = new BeerService(beerRepositoryMock.Object);
 
         // Act
         await beerService.DeleteBeer(existingBeer, cancellationToken);
@@ -91,7 +86,6 @@ public class BeerServicesTests
 
     [Fact]
     [Trait("categories", "Delete beer")]
-
     public async Task Should_DeleteBeer_WhenBeerDoesNotExist_ThrowsInvalidOperationException()
     {
         // Arrange
@@ -101,7 +95,7 @@ public class BeerServicesTests
         var beerRepositoryMock = new Mock<IBeerRepositories>();
         beerRepositoryMock.Setup(repo => repo.GetByIdAsync(beerIdToDelete, cancellationToken))
                          .Returns(Task.FromResult<Beer>(null!));
-        var beerService = new BeerServices(beerRepositoryMock.Object);
+        var beerService = new BeerService(beerRepositoryMock.Object);
 
         // Act & Assert
         async Task DeleteBeer() => await beerService.DeleteBeer(new Beer { BeerId = 1, Name = "Bière 1", AlcoholContent = 5.0m, Price = 3.99m, BreweryId = 1 }, cancellationToken);
@@ -111,7 +105,6 @@ public class BeerServicesTests
 
     [Fact]
     [Trait("categories", "List of beer by brewery")]
-
     public async Task Should_GetBeersByBrewery_WhenValidId_ReturnsListOfBeers()
     {
         // Arrange
@@ -127,7 +120,7 @@ public class BeerServicesTests
         beerRepositoryMock.Setup(repo => repo.GetBeersByBrewery(breweryId, cancellationToken))
                          .ReturnsAsync(expectedBeers);
 
-        var breweryService = new BeerServices(beerRepositoryMock.Object);
+        var breweryService = new BeerService(beerRepositoryMock.Object);
 
         // Act
         var result = await breweryService.GetBeersByBrewery(breweryId, cancellationToken);
@@ -139,7 +132,6 @@ public class BeerServicesTests
 
     [Fact]
     [Trait("categories", "List of beer by brewery")]
-
     public async Task Should_GetBeersByBrewery_WhenValidIdAndNoBeers_ThrowsInvalidOperationException()
     {
         // Arrange
@@ -150,7 +142,7 @@ public class BeerServicesTests
         beerRepositoryMock.Setup(repo => repo.GetBeersByBrewery(breweryId, cancellationToken))
                          .ReturnsAsync(new List<Beer>()); 
 
-        var breweryService = new BeerServices(beerRepositoryMock.Object);
+        var breweryService = new BeerService(beerRepositoryMock.Object);
 
         // Act & Assert
         await Assert.ThrowsAsync<InvalidOperationException>(() =>

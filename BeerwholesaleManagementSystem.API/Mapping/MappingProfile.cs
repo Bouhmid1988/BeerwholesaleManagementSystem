@@ -8,9 +8,14 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // Domain(database) to Resource
+        // Domain(database) to DTO
         CreateMap<Beer, BeerDto>();
-        // Resources to Domain or Database
+        CreateMap<SaleBeer, SaleBeerDto>();
+        CreateMap<Stock, StockDto>();
+
+        // DTO to Domain or Database
         CreateMap<BeerDto, Beer>();
+        CreateMap<SaleBeerDto, SaleBeer>();
+        CreateMap<StockDto, Stock>();
     }
 }

@@ -15,7 +15,7 @@ public class BeerServicesTests
         // Arrange
         var cancellationToken = CancellationToken.None;
         var newBeer = new Beer { BeerId = 1, Name = "Bière 1", AlcoholContent = 5.0m, Price = 3.99m, BreweryId = 1 };
-        var beerRepositoryMock = new Mock<IBeerRepositories>();
+        var beerRepositoryMock = new Mock<IBeerRepository>();
 
         beerRepositoryMock.Setup(repo => repo.GetByIdAsync(newBeer.BeerId, cancellationToken))
                          .ReturnsAsync((Beer)null!);
@@ -50,7 +50,7 @@ public class BeerServicesTests
                 Price = newBeer.Price,
                 BreweryId = newBeer.BreweryId
             };
-        var beerRepositoriesMock = new Mock<IBeerRepositories>();
+        var beerRepositoriesMock = new Mock<IBeerRepository>();
         beerRepositoriesMock.Setup(repo => repo.GetByIdAsync(newBeer.BeerId, cancellationToken))
                          .ReturnsAsync(existingBeer);
 
@@ -71,7 +71,7 @@ public class BeerServicesTests
         var beerIdToDelete = 1;
         var existingBeer = new Beer { BeerId = 1, Name = "Bière 1", AlcoholContent = 5.0m, Price = 3.99m, BreweryId = 1 };
 
-        var beerRepositoryMock = new Mock<IBeerRepositories>();
+        var beerRepositoryMock = new Mock<IBeerRepository>();
         beerRepositoryMock.Setup(repo => repo.GetByIdAsync(beerIdToDelete, cancellationToken))
                          .ReturnsAsync(existingBeer);
 
@@ -92,7 +92,7 @@ public class BeerServicesTests
         var cancellationToken = CancellationToken.None;
         var beerIdToDelete = 1;
 
-        var beerRepositoryMock = new Mock<IBeerRepositories>();
+        var beerRepositoryMock = new Mock<IBeerRepository>();
         beerRepositoryMock.Setup(repo => repo.GetByIdAsync(beerIdToDelete, cancellationToken))
                          .Returns(Task.FromResult<Beer>(null!));
         var beerService = new BeerService(beerRepositoryMock.Object);
@@ -116,7 +116,7 @@ public class BeerServicesTests
                 new Beer { BeerId = 2, Name = "Bière 2", AlcoholContent = 7.0m, Price = 4.99m, BreweryId = 1 }
             };
 
-        var beerRepositoryMock = new Mock<IBeerRepositories>();
+        var beerRepositoryMock = new Mock<IBeerRepository>();
         beerRepositoryMock.Setup(repo => repo.GetBeersByBrewery(breweryId, cancellationToken))
                          .ReturnsAsync(expectedBeers);
 
@@ -138,7 +138,7 @@ public class BeerServicesTests
         var cancellationToken = CancellationToken.None;
         var breweryId = 1;
 
-        var beerRepositoryMock = new Mock<IBeerRepositories>();
+        var beerRepositoryMock = new Mock<IBeerRepository>();
         beerRepositoryMock.Setup(repo => repo.GetBeersByBrewery(breweryId, cancellationToken))
                          .ReturnsAsync(new List<Beer>()); 
 

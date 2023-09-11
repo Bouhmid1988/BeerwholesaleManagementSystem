@@ -17,7 +17,7 @@ public class StockServiceTests
         var cancellationToken = CancellationToken.None;
         var expectedStock = new Stock { StockId = stockId, QuantityStock = 10 };
 
-        var stockRepositoryMock = new Mock<IStockRepositories>();
+        var stockRepositoryMock = new Mock<IStockRepository>();
         stockRepositoryMock.Setup(repo => repo.GetByIdAsync(stockId, cancellationToken))
                            .ReturnsAsync(expectedStock);
 
@@ -39,7 +39,7 @@ public class StockServiceTests
         // Arrange
         var stockId = 1;
         var cancellationToken = CancellationToken.None;
-        var stockRepositoryMock = new Mock<IStockRepositories>();
+        var stockRepositoryMock = new Mock<IStockRepository>();
 
         stockRepositoryMock.Setup(repo => repo.GetByIdAsync(stockId, cancellationToken))
                            .ReturnsAsync((Stock)null!);
@@ -60,10 +60,11 @@ public class StockServiceTests
         // Arrange
         var stockId = 1;
         var newQuantity = 20;
+       
         var cancellationToken = CancellationToken.None;
-        var existingStock = new Stock { StockId = stockId, QuantityStock = 10 };
+        var existingStock = new Stock {StockId=stockId, QuantityStock = 10 };
 
-        var stockRepositoryMock = new Mock<IStockRepositories>();
+        var stockRepositoryMock = new Mock<IStockRepository>();
         stockRepositoryMock.Setup(repo => repo.GetByIdAsync(stockId, cancellationToken))
                            .ReturnsAsync(existingStock);
         var stockService = new StockService(stockRepositoryMock.Object);
@@ -85,8 +86,9 @@ public class StockServiceTests
         // Arrange
         var stockId = 1;
         var newQuantity = 20;
+       
         var cancellationToken = CancellationToken.None;
-        var stockRepositoryMock = new Mock<IStockRepositories>();
+        var stockRepositoryMock = new Mock<IStockRepository>();
 
         stockRepositoryMock.Setup(repo => repo.GetByIdAsync(stockId, cancellationToken))
                            .ReturnsAsync((Stock)null!);

@@ -19,8 +19,8 @@ public class SaleBeerServicesTests
         var quantity = 10;
 
         var saleBeerRepositoryMock = new Mock<ISaleBeerRepositories>();
-        var beerRepositoryMock = new Mock<IBeerRepositories>();
-        var wholesalerRepositoryMock = new Mock<IWholesalerRepositories>();
+        var beerRepositoryMock = new Mock<IBeerRepository>();
+        var wholesalerRepositoryMock = new Mock<IWholesalerRepository>();
 
         beerRepositoryMock.Setup(repo => repo.GetByIdAsync(beerId, cancellationToken))
                          .ReturnsAsync(new Beer { BeerId = beerId, Name = "Test Beer" });
@@ -61,8 +61,8 @@ public class SaleBeerServicesTests
         var quantity = 10;
 
         var saleBeerRepositoryMock = new Mock<ISaleBeerRepositories>();
-        var beerRepositoriesMock = new Mock<IBeerRepositories>();
-        var wholesalerRepositoryMock = new Mock<IWholesalerRepositories>();
+        var beerRepositoriesMock = new Mock<IBeerRepository>();
+        var wholesalerRepositoryMock = new Mock<IWholesalerRepository>();
 
         beerRepositoriesMock.Setup(repo => repo.GetByIdAsync(beerId, cancellationToken))
                          .ReturnsAsync((Beer)null!); 
@@ -96,8 +96,8 @@ public class SaleBeerServicesTests
         var quantity = 10;
 
         var saleBeerRepositoryMock = new Mock<ISaleBeerRepositories>();
-        var beerRepositoryMock = new Mock<IBeerRepositories>();
-        var wholesalerRepositoryMock = new Mock<IWholesalerRepositories>();
+        var beerRepositoryMock = new Mock<IBeerRepository>();
+        var wholesalerRepositoryMock = new Mock<IWholesalerRepository>();
 
         beerRepositoryMock.Setup(repo => repo.GetByIdAsync(beerId, cancellationToken))
                          .ReturnsAsync(new Beer { BeerId = beerId, Name = "Test Beer" });

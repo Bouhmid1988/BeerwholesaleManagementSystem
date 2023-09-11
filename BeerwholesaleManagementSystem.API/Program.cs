@@ -1,10 +1,13 @@
+using BeerWholesaleManagementSystem.Core.DTO;
+using BeerWholesaleManagementSystem.Core.Models;
 using BeerWholesaleManagementSystem.Core.Repositories;
 using BeerWholesaleManagementSystem.Core.Services;
+using BeerWholesaleManagementSystem.Core.Validators;
 using BeerWholesaleManagementSystem.Data;
 using BeerWholesaleManagementSystem.Data.Repositories;
 using BeerWholesaleManagementSystem.Services.Services;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,16 +23,21 @@ builder.Services.AddDbContext<BeerDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("BeerManagementDB")));
 
 // Register repositories for dependency injection
-builder.Services.AddTransient<IBeerRepositories, BeerRepositories>();
+builder.Services.AddTransient<IBeerRepository, BeerRepository>();
 builder.Services.AddTransient<ISaleBeerRepositories, SaleBeerRepositories>();
-builder.Services.AddTransient<IWholesalerRepositories, WholesalerRepositories>();
-builder.Services.AddTransient<IStockRepositories, StockRepositories>();
+builder.Services.AddTransient<IWholesalerRepository, WholesalerRepository>();
+builder.Services.AddTransient<IStockRepository, StockRepository>();
+builder.Services.AddTransient<IQuoteRequestRepository, CommandRequestRepository>();
+builder.Services.AddTransient<IQuoteRequestBeerDetailsRepository, CommandRequestBeerDetailsRepository>();
 
 
 // Register services for dependency injection
 builder.Services.AddTransient<IStockService, StockService>();
 builder.Services.AddTransient<ISaleBeerService, SaleBeerService>();
 builder.Services.AddTransient<IBeerService, BeerService>();
+builder.Services.AddTransient<IWholesalerService, WholesalerService>();
+builder.Services.AddScoped<IValidator<QuoteResquestDto>, QuoteRequestValidator>();
+
 
 // Configure AutoMapper for object mapping
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

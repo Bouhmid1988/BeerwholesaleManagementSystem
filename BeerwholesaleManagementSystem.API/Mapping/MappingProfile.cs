@@ -12,10 +12,19 @@ public class MappingProfile : Profile
         CreateMap<Beer, BeerDto>();
         CreateMap<SaleBeer, SaleBeerDto>();
         CreateMap<Stock, StockDto>();
+        CreateMap<QuoteRequest, QuoteResquestDto>();
+
+
 
         // DTO to Domain or Database
         CreateMap<BeerDto, Beer>();
         CreateMap<SaleBeerDto, SaleBeer>();
         CreateMap<StockDto, Stock>();
+        CreateMap<QuoteResquestDto, QuoteRequest>();
+
+        
+
+
+
     }
 }

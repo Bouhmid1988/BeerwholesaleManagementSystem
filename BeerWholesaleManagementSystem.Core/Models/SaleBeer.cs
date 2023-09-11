@@ -8,5 +8,5 @@ public class SaleBeer
     public int Quantity { get; set; }
     public DateTime DateSale { get; set; }
 
-    public Wholesaler? Wholesaler { get; set; }
+    public Wholesaler Wholesaler { get; set; }
 }

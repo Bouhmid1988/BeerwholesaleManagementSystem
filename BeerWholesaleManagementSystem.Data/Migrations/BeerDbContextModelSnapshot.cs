@@ -36,11 +36,7 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                     b.Property<int>("BreweryId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CommandRequestId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
@@ -49,8 +45,6 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                     b.HasKey("BeerId");
 
                     b.HasIndex("BreweryId");
-
-                    b.HasIndex("CommandRequestId");
 
                     b.ToTable("Beers");
                 });
@@ -64,7 +58,6 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BreweryId"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BreweryId");
@@ -72,19 +65,18 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                     b.ToTable("Brewery");
                 });
 
-            modelBuilder.Entity("BeerWholesaleManagementSystem.Core.Models.CommandRequest", b =>
+            modelBuilder.Entity("BeerWholesaleManagementSystem.Core.Models.QuoteRequest", b =>
                 {
-                    b.Property<int>("CommandRequestId")
+                    b.Property<int>("QuoteRequestId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommandRequestId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuoteRequestId"));
 
-                    b.Property<DateTime>("DateCommande")
+                    b.Property<DateTime>("DateQuote")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Statuts")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalPrice")
@@ -93,11 +85,29 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                     b.Property<int>("WholesalerId")
                         .HasColumnType("int");
 
-                    b.HasKey("CommandRequestId");
+                    b.HasKey("QuoteRequestId");
 
                     b.HasIndex("WholesalerId");
 
-                    b.ToTable("CommandeRequest");
+                    b.ToTable("QuoteRequest");
+                });
+
+            modelBuilder.Entity("BeerWholesaleManagementSystem.Core.Models.QuoteRequestBeerDetail", b =>
+                {
+                    b.Property<int>("QuoteRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BeerId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(10, 2)");
+
+                    b.HasKey("QuoteRequestId", "BeerId");
+
+                    b.HasIndex("BeerId");
+
+                    b.ToTable("QuoteRequestBeerDetail");
                 });
 
             modelBuilder.Entity("BeerWholesaleManagementSystem.Core.Models.SaleBeer", b =>
@@ -162,7 +172,6 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WholesalerId"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("WholesalerId");
@@ -178,14 +187,10 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BeerWholesaleManagementSystem.Core.Models.CommandRequest", null)
-                        .WithMany("BeerCommandees")
-                        .HasForeignKey("CommandRequestId");
-
                     b.Navigation("Brewery");
                 });
 
-            modelBuilder.Entity("BeerWholesaleManagementSystem.Core.Models.CommandRequest", b =>
+            modelBuilder.Entity("BeerWholesaleManagementSystem.Core.Models.QuoteRequest", b =>
                 {
                     b.HasOne("BeerWholesaleManagementSystem.Core.Models.Wholesaler", "Wholesaler")
                         .WithMany("CommandRequest")
@@ -194,6 +199,25 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Wholesaler");
+                });
+
+            modelBuilder.Entity("BeerWholesaleManagementSystem.Core.Models.QuoteRequestBeerDetail", b =>
+                {
+                    b.HasOne("BeerWholesaleManagementSystem.Core.Models.Beer", "Beer")
+                        .WithMany()
+                        .HasForeignKey("BeerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BeerWholesaleManagementSystem.Core.Models.QuoteRequest", "QuoteRequest")
+                        .WithMany("QuoteRequestBeerDetail")
+                        .HasForeignKey("QuoteRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Beer");
+
+                    b.Navigation("QuoteRequest");
                 });
 
             modelBuilder.Entity("BeerWholesaleManagementSystem.Core.Models.SaleBeer", b =>
@@ -236,9 +260,9 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                     b.Navigation("Beers");
                 });
 
-            modelBuilder.Entity("BeerWholesaleManagementSystem.Core.Models.CommandRequest", b =>
+            modelBuilder.Entity("BeerWholesaleManagementSystem.Core.Models.QuoteRequest", b =>
                 {
-                    b.Navigation("BeerCommandees");
+                    b.Navigation("QuoteRequestBeerDetail");
                 });
 
             modelBuilder.Entity("BeerWholesaleManagementSystem.Core.Models.Wholesaler", b =>

@@ -2,32 +2,37 @@
 using BeerWholesaleManagementSystem.Core.Repositories;
 using BeerWholesaleManagementSystem.Core.Services;
 
-namespace BeerWholesaleManagementSystem.Services.Services;
-
-public class StockService : IStockService
+namespace BeerWholesaleManagementSystem.Services.Services
 {
-    private readonly IStockRepositories _stockRepositories;
+    /// <summary>
+    /// Represents a service for managing stock-related operations.
+    /// </summary>
+    public class StockService : IStockService
+    {
+        private readonly IStockRepository _stockRepositories;
 
-    public StockService(IStockRepositories stockRepositories)
-    {
-        _stockRepositories = stockRepositories ?? throw new ArgumentNullException(nameof(_stockRepositories));
-    }
-    public async Task<Stock> GetStockById(int id, CancellationToken cancellationToken)
-    {
-        return await _stockRepositories.GetByIdAsync(id, cancellationToken);
-    }
-    public async Task<Stock> UpdateStockQuantity(int stockId, int newQuantity, CancellationToken cancellationToken)
-    {
-        var existingStock = await _stockRepositories.GetByIdAsync(stockId, cancellationToken);
-
-        if (existingStock == null)
+        public StockService(IStockRepository stockRepositories)
         {
-            throw new InvalidOperationException("The specified stock was not found.");
+            _stockRepositories = stockRepositories ?? throw new ArgumentNullException(nameof(_stockRepositories));
         }
 
-        existingStock.QuantityStock = newQuantity;
+        /// <inheritdoc cref="IStockService.GetStockById"/>
+        public async Task<Stock> GetStockById(int id, CancellationToken cancellationToken)
+        {
+            return await _stockRepositories.GetByIdAsync(id, cancellationToken);
+        }
 
-        await _stockRepositories.UpdateAsync(existingStock, cancellationToken);
-        return existingStock;
+        /// <inheritdoc cref="IStockService.UpdateStockQuantity"/>
+        public async Task<Stock> UpdateStockQuantity(int stockId, int newQuantity, CancellationToken cancellationToken)
+        {
+            var existingStock = await _stockRepositories.GetByIdAsync(stockId, cancellationToken);
+
+            if (existingStock == null)
+                throw new InvalidOperationException("The specified stock was not found.");
+            
+            existingStock.QuantityStock = newQuantity;
+            await _stockRepositories.UpdateAsync(existingStock, cancellationToken);
+            return existingStock;
+        }
     }
 }

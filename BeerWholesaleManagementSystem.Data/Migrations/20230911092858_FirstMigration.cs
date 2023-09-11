@@ -17,7 +17,7 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                 {
                     BreweryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -30,7 +30,7 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                 {
                     WholesalerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,21 +38,43 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CommandeRequest",
+                name: "Beers",
                 columns: table => new
                 {
-                    CommandRequestId = table.Column<int>(type: "int", nullable: false)
+                    BeerId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AlcoholContent = table.Column<decimal>(type: "decimal(4,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    BreweryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Beers", x => x.BeerId);
+                    table.ForeignKey(
+                        name: "FK_Beers_Brewery_BreweryId",
+                        column: x => x.BreweryId,
+                        principalTable: "Brewery",
+                        principalColumn: "BreweryId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuoteRequest",
+                columns: table => new
+                {
+                    QuoteRequestId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WholesalerId = table.Column<int>(type: "int", nullable: false),
-                    DateCommande = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Statuts = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateQuote = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Statuts = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TotalPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CommandeRequest", x => x.CommandRequestId);
+                    table.PrimaryKey("PK_QuoteRequest", x => x.QuoteRequestId);
                     table.ForeignKey(
-                        name: "FK_CommandeRequest_Wholesaler_WholesalerId",
+                        name: "FK_QuoteRequest_Wholesaler_WholesalerId",
                         column: x => x.WholesalerId,
                         principalTable: "Wholesaler",
                         principalColumn: "WholesalerId",
@@ -82,34 +104,6 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Beers",
-                columns: table => new
-                {
-                    BeerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AlcoholContent = table.Column<decimal>(type: "decimal(4,2)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    BreweryId = table.Column<int>(type: "int", nullable: false),
-                    CommandRequestId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Beers", x => x.BeerId);
-                    table.ForeignKey(
-                        name: "FK_Beers_Brewery_BreweryId",
-                        column: x => x.BreweryId,
-                        principalTable: "Brewery",
-                        principalColumn: "BreweryId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Beers_CommandeRequest_CommandRequestId",
-                        column: x => x.CommandRequestId,
-                        principalTable: "CommandeRequest",
-                        principalColumn: "CommandRequestId");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Stock",
                 columns: table => new
                 {
@@ -136,20 +130,45 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "QuoteRequestBeerDetail",
+                columns: table => new
+                {
+                    QuoteRequestId = table.Column<int>(type: "int", nullable: false),
+                    BeerId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<decimal>(type: "decimal(10,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuoteRequestBeerDetail", x => new { x.QuoteRequestId, x.BeerId });
+                    table.ForeignKey(
+                        name: "FK_QuoteRequestBeerDetail_Beers_BeerId",
+                        column: x => x.BeerId,
+                        principalTable: "Beers",
+                        principalColumn: "BeerId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuoteRequestBeerDetail_QuoteRequest_QuoteRequestId",
+                        column: x => x.QuoteRequestId,
+                        principalTable: "QuoteRequest",
+                        principalColumn: "QuoteRequestId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Beers_BreweryId",
                 table: "Beers",
                 column: "BreweryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Beers_CommandRequestId",
-                table: "Beers",
-                column: "CommandRequestId");
+                name: "IX_QuoteRequest_WholesalerId",
+                table: "QuoteRequest",
+                column: "WholesalerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CommandeRequest_WholesalerId",
-                table: "CommandeRequest",
-                column: "WholesalerId");
+                name: "IX_QuoteRequestBeerDetail_BeerId",
+                table: "QuoteRequestBeerDetail",
+                column: "BeerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SaleBeer_WholesalerId",
@@ -171,22 +190,25 @@ namespace BeerWholesaleManagementSystem.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "QuoteRequestBeerDetail");
+
+            migrationBuilder.DropTable(
                 name: "SaleBeer");
 
             migrationBuilder.DropTable(
                 name: "Stock");
 
             migrationBuilder.DropTable(
+                name: "QuoteRequest");
+
+            migrationBuilder.DropTable(
                 name: "Beers");
 
             migrationBuilder.DropTable(
-                name: "Brewery");
-
-            migrationBuilder.DropTable(
-                name: "CommandeRequest");
-
-            migrationBuilder.DropTable(
                 name: "Wholesaler");
+
+            migrationBuilder.DropTable(
+                name: "Brewery");
         }
     }
 }
